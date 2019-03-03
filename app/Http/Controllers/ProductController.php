@@ -42,10 +42,7 @@ class ProductController extends Controller
         //
         $credentials = $request->only('name', 'price');
         
-        $rules = [
-            'name' => 'required|max:255|unique:products',
-            'price' => 'required'
-        ];
+        $rules = Product::$rules;
         $validator = Validator::make($credentials, $rules);
         if($validator->fails()) {
             return response()->json(['success'=> false, 'error'=> $validator->messages()]);
@@ -69,6 +66,7 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         //
+        return response()->json(['success'=> true, 'message'=> $product->toArray()]);
     }
 
     /**
@@ -78,9 +76,8 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Product $product)
-    {
+    {           
         //
-       
     }
 
     /**
@@ -95,10 +92,7 @@ class ProductController extends Controller
         //
         $credentials = $request->only('name', 'price');
         
-        $rules = [
-            'name' => 'required|max:255|unique:products',
-            'price' => 'required'
-        ];
+        $rules = Product::$rules;
         $rules['name'] = $rules['name'] . ',id,' . $product->id;
 
         $validator = Validator::make($credentials, $rules);
@@ -122,5 +116,12 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         //
+        try {
+            $product->delete();
+        } catch (Exception $e) {
+            return response()->json(['success'=> fakse, 'message'=> $e]);
+        }
+        //
+       return response()->json(['success'=> true, 'message'=> '']);
     }
 }

@@ -6,7 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {	
-
+    static $rules = [
+            'name' => 'required|max:255|unique:products',
+            'price' => 'required'
+        ];
     //
     /**
      * The attributes that are mass assignable.
@@ -22,7 +25,7 @@ class Product extends Model
      *
      * @var array
      */
-    protected $hidden = [
-        'id',
-    ];
+    // protected $hidden = [
+    //     'id',
+    // ];
 }
