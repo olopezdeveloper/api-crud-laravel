@@ -24,7 +24,8 @@ class AuthController extends Controller
         
         $rules = [
             'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users'
+            'email' => 'required|email|max:255|unique:users',
+            'password' => 'required|max:255'
         ];
         $validator = Validator::make($credentials, $rules);
         if($validator->fails()) {
